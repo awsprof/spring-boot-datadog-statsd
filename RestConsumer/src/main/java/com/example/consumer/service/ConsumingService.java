@@ -33,14 +33,27 @@ public class ConsumingService {
 
             String host = list.get(0).getHost();
             int port = list.get(0).getPort();
+            String protocol = null;
+            String sayHelloServiceUrl = null;
+            if(list.get(0).getMetadata()!=null && !list.get(0).getMetadata().isEmpty() && list.get(0).getMetadata().containsKey("protocol")){
+                protocol = list.get(0).getMetadata().get("protocol");
+            }else{
+                protocol ="http";
+            }
 
-            return "http://" + host + ":" + port;
+            if(list.get(0).getMetadata()!=null && !list.get(0).getMetadata().isEmpty() && list.get(0).getMetadata().containsKey("sayHelloServiceUrl")){
+                sayHelloServiceUrl = list.get(0).getMetadata().get("sayHelloServiceUrl");
+            }else{
+                sayHelloServiceUrl = "/service/sayHello/{user}";
+            }
+
+            return protocol + "://" + host + ":" + port + sayHelloServiceUrl;
         }
         return null;
     }
 
     public String getUser(String user) {
-        String endpoint = serviceUrl() + "/service/sayHello/{user}";
+        String endpoint = serviceUrl();
         //String user = sampleEntity.get().getSurname();
         String response = rest.exchange(endpoint, HttpMethod.GET, null, new ParameterizedTypeReference<String>() {
         }, user).getBody();

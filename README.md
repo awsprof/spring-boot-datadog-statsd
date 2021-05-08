@@ -1,5 +1,9 @@
 #Spring Boot Metrics to Datadog through statsd
-This repository contains two simple Spring boot microservices that are linked together using the Hashicorp Consul Service Discovery Service.
+There are multiple ways of collecting and sending metrics. Spring boot can be made to send metrics straight to datadog, however the easiest method is to run a datadog agent docker container and use statsd to send it to the agent UDP port on 8125. Although I found a few examples of using statsd and dogstatsd, I could not come up with a single example that uses datadog agent within a docker container exposing 8125, using micrometer statsd with custom tagging.
+
+I have created some custom timer metrics to pump to datadog as an example. Please feel free to add more as required in your own projects.
+
+A word of warning - I was not able to expose both prometheus and statsd at the same time. Maybe when I have time, I will look into this.
 
 ## Installation
 This project depends on my two earlier projects 
@@ -14,9 +18,8 @@ Access the Consul UI on [http://localhost:8500/ui/dc1/services](http://localhost
 
 Once the Consul service comes up, clone this repo and open using an IDE of your choice. I use [JetBrains IntelliJ](https://www.jetbrains.com) by the way.
 
-## Metrics and Statsd
 
-To be filled
+
 
 ## Project Information
 

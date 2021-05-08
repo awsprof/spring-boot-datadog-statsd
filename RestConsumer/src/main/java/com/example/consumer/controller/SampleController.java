@@ -26,12 +26,9 @@ public class SampleController {
     @Value("${spring.application.name}")
     private String springApplicationName;
 
-    @Value("${spring.profiles.active}")
-    private String activeProfile;
-
     public SampleController(MeterRegistry registry) {
         this.registry = registry;
-        timer = registry.timer(springApplicationName+"_restConsumerTimer","team","springrocks","environment",activeProfile);
+        timer = registry.timer(springApplicationName+"_restConsumerTimer","team","springrocks","environment","dev");
     }
 
     @Autowired
