@@ -10,8 +10,8 @@
         <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>RestConsumer</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>rest-consumer</artifactId>
+    <version>0.0.6-SNAPSHOT</version>
     <name>RestConsumer</name>
     <description>Demo project for Spring Boot</description>
     <properties>
@@ -76,7 +76,14 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <image>
+                        <name>testofwill22/${project.artifactId}:${project.version}</name>
+                    </image>
+                    <pullPolicy>IF_NOT_PRESENT</pullPolicy>
+                </configuration>
             </plugin>
+
         </plugins>
     </build>
 

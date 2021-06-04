@@ -28,7 +28,7 @@ public class ConsumingService {
     private String springApplicationName;
 
     public String serviceUrl() {
-        List<ServiceInstance> list = discoveryClient.getInstances("RestService");
+        List<ServiceInstance> list = discoveryClient.getInstances("rest-service");
         if (list != null && list.size() > 0) {
 
             String host = list.get(0).getHost();
