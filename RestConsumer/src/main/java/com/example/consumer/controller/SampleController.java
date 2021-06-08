@@ -1,5 +1,6 @@
 package com.example.consumer.controller;
 
+import com.example.consumer.configuration.MyConfig;
 import com.example.consumer.service.ConsumingService;
 import io.micrometer.core.annotation.Timed;
 import io.micrometer.core.instrument.MeterRegistry;
@@ -33,6 +34,14 @@ public class SampleController {
 
     @Autowired
     private ConsumingService consumingService;
+
+    @Autowired
+    private MyConfig myConfig;
+
+    @GetMapping("/getConfigData")
+    public MyConfig getMyConfig(){
+        return myConfig;
+    }
 
     @Timed(percentiles = {0.5, 0.95, 0.999}, histogram = true)
     @GetMapping("/invoke/{user}")

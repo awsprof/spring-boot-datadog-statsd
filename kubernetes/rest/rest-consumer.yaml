@@ -1,0 +1,69 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: rest-consumer-ms
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rest-consumer-ms
+spec:
+  type: ClusterIP
+  selector:
+    app: rest-consumer-ms
+  ports:
+  - port: 18080
+    targetPort: 18080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: rest-consumer-ms
+  name: rest-consumer-ms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rest-consumer-ms
+  template:
+    metadata:
+      annotations:
+        'consul.hashicorp.com/connect-inject': 'true'
+        'consul.hashicorp.com/connect-service-upstreams': 'rest-service:10000'
+      labels:
+        app: rest-consumer-ms
+    spec:
+      containers:
+      - name: rest-consumer
+        image: testofwill22/rest-consumer:0.0.18-SNAPSHOT
+        env:
+          - name: CONSUL_HTTP_ADDR
+            valueFrom:
+              fieldRef:
+                fieldPath: status.hostIP
+          - name: REST_SERVICE_PORT
+            value: "10000"
+        ports:
+        - containerPort: 18080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rest-consumer-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: rest-consumer-ms
+            port: 
+              number: 18080

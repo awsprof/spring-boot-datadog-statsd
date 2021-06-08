@@ -1,0 +1,50 @@
+spring:
+  config:
+    import: 'consul:'
+  profiles:
+    active: ${MS_PROFILE_NAME:dev}
+  application:
+    name: rest-consumer
+  cloud:
+    consul:
+      host: ${CONSUL_HTTP_ADDR:localhost}
+      port: ${CONSUL_PORT:8500}
+      discovery:
+        prefer-ip-address: true
+        instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+      config:
+        failFast: true
+        format: yaml
+        enabled: true
+server:
+  port: 18080
+logging:
+  pattern:
+    console: '%d{UNIX_MILLIS} %-5level %logger{36} --- %msg%n'
+  level:
+    root: info
+management:
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+      statsd:
+        enabled: true
+        flavor: datadog
+        host: localhost
+        port: 8125
+        max-packet-length: 1400
+        polling-frequency: 10s
+        publish-unchanged-meters: true
+        protocol: udp
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+restService:
+  localProxyPort: 10000

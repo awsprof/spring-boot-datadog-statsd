@@ -27,7 +27,7 @@ public class RestServiceController {
 
     @Timed(percentiles = {0.5, 0.95, 0.999}, histogram = true)
     @GetMapping("/sayHello/{name}")
-    public String sayHello(@PathVariable String name){
+    public String sayHello(@PathVariable("name") String name){
         timer.record(()->{
             try{
                 Thread.sleep((long) (Math.random()*500));
