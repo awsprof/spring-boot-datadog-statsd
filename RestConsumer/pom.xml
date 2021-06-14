@@ -11,7 +11,7 @@
     </parent>
     <groupId>com.example</groupId>
     <artifactId>rest-consumer</artifactId>
-    <version>0.0.18-SNAPSHOT</version>
+    <version>0.0.19-SNAPSHOT</version>
     <name>RestConsumer</name>
     <description>Demo project for Spring Boot</description>
     <properties>

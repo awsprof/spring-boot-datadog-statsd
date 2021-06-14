@@ -30,7 +30,7 @@ spec:
     metadata:
       annotations:
         'consul.hashicorp.com/connect-inject': 'true'
-        'consul.hashicorp.com/connect-service-upstreams': 'rest-service:10000'
+        'consul.hashicorp.com/connect-service-upstreams': 'rest-service1:10000,rest-service2,10001'
       labels:
         app: rest-consumer-ms
     spec:
@@ -42,8 +42,10 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: status.hostIP
-          - name: REST_SERVICE_PORT
-            value: "10000"
+          - name: MS_PROFILE_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
         ports:
         - containerPort: 18080
 ---
